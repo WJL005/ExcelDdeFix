@@ -1,0 +1,25 @@
+# 编译中间产物（源码入库，exe 通过 Release 分发；如需本地测试请自行编译）
+*.exe
+*.pdb
+*.obj
+*.dll
+
+# 运行时数据（含本机环境信息，切勿入库）
+logs/
+backup/
+diagnose-*.txt
+diagnose-*.html
+
+# 测试临时文件
+*SelfTest*
+TestProbe*
+gui_stdout.log
+build-selftest.bat
+_make_examples.py
+
+# 编辑器 / 系统
+.vs/
+.vscode/
+Thumbs.db
+.DS_Store
+desktop.ini

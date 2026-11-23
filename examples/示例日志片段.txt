@@ -1,0 +1,11 @@
+# 结构化日志示例（JSONL，已从真实运行脱敏）
+# 每行一个 JSON：ts 时间 / sid 会话ID / level 级别 / action 操作 / detail 明细
+
+{"ts":"YYYY-MM-DD HH:MM:SS.mmm","sid":"fcc5cf42","level":"EXPORT","action":"","detail":"CLI 导出报告 | file=<工具目录>\\示例诊断报告.html bytes=18063"}
+{"ts":"YYYY-MM-DD HH:MM:SS.mmm","sid":"7db91749","level":"VERIFY","action":"","detail":"记录打开前 Excel 进程: 0 个"}
+{"ts":"YYYY-MM-DD HH:MM:SS.mmm","sid":"7db91749","level":"VERIFY","action":"","detail":"已打开 销售数据.xlsx"}
+{"ts":"YYYY-MM-DD HH:MM:SS.mmm","sid":"7db91749","level":"VERIFY","action":"","detail":"已打开 库存数据.xlsx"}
+{"ts":"YYYY-MM-DD HH:MM:SS.mmm","sid":"7db91749","level":"VERIFY","action":"","detail":"合并成功：打开 2 个 xlsx 只新增 1 个 Excel 进程，DDE 合并生效。"}
+{"ts":"YYYY-MM-DD HH:MM:SS.mmm","sid":"7db91749","level":"VERIFY","action":"","detail":"请求关闭测试进程 PID=<PID>"}
+{"ts":"YYYY-MM-DD HH:MM:SS.mmm","sid":"7db91749","level":"VERIFY","action":"","detail":"强制结束残留测试进程 PID=<PID>"}
+{"ts":"YYYY-MM-DD HH:MM:SS.mmm","sid":"7db91749","level":"VERIFY","action":"","detail":"CLI 实测合并验证 | ok=True newProcs=1 pids=<PID>f1=C:\\Users\\<用户名>\\Desktop\\销售数据.xlsx f2=C:\\Users\\<用户名>\\Desktop\\库存数据.xlsx"}

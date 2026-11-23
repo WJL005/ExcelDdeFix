@@ -1,0 +1,100 @@
+Excel DDE 合并修复工具 v3 - 使用说明
+==========================================
+
+完整文档见 README.md；本文件是快速上手卡。
+
+【v3 相对 v2 的关键改进】
+1. 评分从"键是否存在"升级为"逐项校验值内容"：
+   4 个 Excel ProgId × 4 项(ddeexec/application/topic/command) × 6.25 分。
+   即使键还在但值被写错，也会被判为 FAIL，不再虚报满分。
+2. Excel 路径智能探测：App Paths 注册表 → COM LocalServer32 → 多版本多路径
+   (Office 2010/2013/2016+/C2R, 32/64 位)，并校验文件真实存在。
+   找不到就报错中止，绝不写入猜测的错误路径。
+3. 多版本 Office：自动识别 16.0 / 15.0 / 14.0，备份与报告覆盖所有已安装版本。
+4. 实测合并验证（新按钮）：自动打开你选的两个 xlsx，数"新增"的 Excel 进程数
+   判断是否合并；只关闭工具自己拉起的进程，不动你已打开的表格。
+5. 命令行接口：--diagnose/--backup/--repair/--verify/--export 等，支持 JSON 输出
+   和退出码，可用于脚本和 CI。--repair --dry-run 无需管理员即可演练。
+6. 备份 v3：带 SHA256 校验和当时评分；回滚前校验哈希、自动留保护快照；
+   拒绝危险的整键删除（只允许删 ddeexec 键树）。
+7. HTML 可视化报告：评分趋势折线图 + 事件时间线 + 环境指纹，单文件可直接分享。
+8. 结构化 JSONL 日志 + 会话ID + 注册表逐项 diff；单实例保护防止并发写注册表。
+
+【根因（简述）】
+DDE 合并注册(HKCR\Excel.Sheet.*\shell\open\ddeexec)被删除、command 缺 /dde，
+导致每打开一个文件就新起一个 Excel 进程；跨进程只能走系统剪贴板 → 丢公式/格式。
+DDECleaned=1 不是根因，它是安全加固标记(DWord 1=已加固)，不影响文件合并，
+v3 已把它从评分中剔除，只纠正被旧工具写坏的类型。
+
+【推荐流程】
+1. 双击 ExcelDdeFix.exe（查看/备份普通权限即可；修复/regserver 建议点"管理员重启"）
+2. 看顶部健康评分（当前应为 100）、注册表状态表、安全加固监测表
+3. 改动前先点【备份当前状态】
+4. 评分 <90 时：关所有 Excel → 【一键修复 DDE】→ 重开两个 xlsx → 【实测合并验证】
+5. DDECleaned 类型异常时点【修正安全项类型】
+6. 效果不理想：选中修复前备份 → 【回滚到备份】
+
+【界面按钮】
+刷新状态 / 备份当前状态 / 一键修复 DDE / 回滚到备份
+诊断报告(txt) / 修正安全项类型 / Excel /regserver / 管理员重启
+实测合并验证 / 导出HTML报告 / 版本与帮助
+自动刷新：勾选后每 5 秒更新，状态变化才记日志
+
+【评分规则】
+4 ProgId × 4 项 × 6.25 分，校验的是"值内容"：
+  ddeexec       = [open("%1")]
+  application   = EXCEL.EXE
+  topic         = System
+  command       = "实际探测到的 EXCEL.EXE 路径" /dde "%1"
+DDECleaned / DDEAllowed / DontUpdateLinks / 组策略项只在安全面板展示，不扣分。
+
+【命令行（有参数走命令行，无参数进界面）】
+  ExcelDdeFix.exe --diagnose [--json]       诊断（JSON 方便脚本解析）
+  ExcelDdeFix.exe --backup --label "文字"    备份
+  ExcelDdeFix.exe --repair --dry-run        演练，不改注册表、不需要管理员
+  ExcelDdeFix.exe --repair --yes            实际修复（需管理员，自动备份）
+  ExcelDdeFix.exe --rollback backup\xxx.txt --yes
+  ExcelDdeFix.exe --verify 文件1.xlsx 文件2.xlsx   实测合并
+  ExcelDdeFix.exe --export --html           导出 HTML 报告
+  ExcelDdeFix.exe --logs --n 50             查看日志
+  ExcelDdeFix.exe --version / --help
+退出码：0=成功 1=警告/部分失败 2=参数错误 3=权限不足 4=异常
+
+【日志（排障用）】
+logs\excel-dde-年月日.log     人类可读：时间(毫秒) | 级别 | [操作] | 详情
+logs\excel-dde-年月日.jsonl   机器可读：每行一个 JSON，含 ts/sid/level/action/detail
+logs\cli-时间戳.txt           每次命令行调用的输出副本
+
+级别：CLICK/DONE(点击起止+耗时+前后快照)、CHOICE(确认框选择)、
+BACKUP/REPAIR/ROLLBACK/HARDEN/REGSVR(操作明细)、
+DIFF(注册表逐项变化 旧值→新值)、VERIFY(实测验证每步)、
+AUTO(状态变化才记)、ERROR(异常全量堆栈)。
+
+技巧：
+  - 按 [按钮名] 过滤 = 某次点击的完整链路
+  - 有 CLICK 没 DONE = 中途异常，往下找同前缀 ERROR
+  - 按 sid 过滤 JSONL = 只看某一次运行的记录
+  - 界面底部面板显示最近 80 行
+
+【安全性】
+- 诊断/备份/导出/查看只读；写注册表操作(修复/回滚/修正类型/regserver)都先自动备份
+- 修复只恢复 DDE 合并所需项 + 纠正类型错误，不清除任何安全加固设置
+- 备份带 SHA256，回滚前校验；回滚前再留一份保护快照可二次回退
+- /regserver 会先正常关闭 Excel 窗口，仅对未响应者强制结束——请先保存工作
+- 无遥测、不联网、不上传任何数据
+
+【文件说明】
+  ExcelDdeFix.exe       主程序 v3
+  build.bat             编译脚本（加入 Cli.cs / HtmlReport.cs）
+  src/RegEngine.cs      注册表引擎：探测/备份/修复/回滚/评分
+  src/ExcelDdeGui.cs    界面 + 日志引擎
+  src/Cli.cs            命令行 + 实测合并验证
+  src/HtmlReport.cs     HTML 报告生成
+  README.md / CHANGELOG.md / CONTRIBUTING.md / SECURITY.md / LICENSE / .gitignore
+  backup/               备份快照（v3 带哈希，兼容旧格式）
+  logs/                 日志
+  diagnose-*.txt/.html  导出的诊断报告
+
+【重新编译】
+修改 src 下 .cs 后双击 build.bat。需 .NET Framework 4.0（Win10/11 自带）。
+源码保持 C# 5 语法，以便用系统自带旧编译器直接构建。

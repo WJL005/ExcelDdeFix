@@ -1,0 +1,30 @@
+人类可读日志示例（已从真实运行脱敏）
+格式：时间(毫秒) | 级别 | [操作] | 明细
+级别说明：CLICK/DONE=按钮点击起止+耗时  CHOICE=确认框选择  DIFF=注册表逐项变化
+          VERIFY=实测验证进度  REPAIR/BACKUP=操作明细  ERROR=异常堆栈
+============================================================
+
+YYYY-MM-DD HH:MM:SS.mmm | CLICK     | [备份当前状态] >>> 点击[备份当前状态] | 前: score=0 dde=0/4 cmdDde=0 DDECleaned=1 excelProc=2 win=2
+YYYY-MM-DD HH:MM:SS.mmm | BACKUP    | [备份当前状态] 手动备份完成 | file=<工具目录>\backup\dde-backup-YYYYMMDD-HHMMSS.txt items=19 missing=12 bytes=1947
+YYYY-MM-DD HH:MM:SS.mmm | BACKUP    | [备份当前状态] 备份明细: Excel.Sheet.12\shell\open\command[(默认)]="C:\Program Files\Microsoft Office\Root\…; Excel.Sheet.12\shell\open\ddeexec[(默认)]=<MISSING>; Excel.Sheet.12\shell\open\ddeexec\application[(默认)]=<MISSING>; Excel.Sheet.12\shell\open\ddeexec\topic[(默认)]=<MISSING>; Excel.Sheet.8\shell\open\command[(默认)]="C:\Program Files\Microsoft Office\Root\…; Excel.Sheet.8\shell\open\ddeexec[(默认)]=<MISSING>; Excel.Sheet.8\shell\open\ddeexec\application[(默认)]=<MISSING>; Excel.Sheet.8\shell\open\ddeexec\topic[(默认)]=<MISSING>; Excel.SheetMacroEnabled.12\shell\open\command[(默认)]="C:\Program Files\Microsoft Office\Root\…; Excel.SheetMacroEnabled.12\shell\open\ddeexec[(默认)]=<MISSING>; Excel.SheetMacroEnabled.12\shell\open\ddeexec\application[(默认)]=<MISSING>; Excel.SheetMacroEnabled.12\shell\open\ddeexec\topic[(默认)]=<MISSING>; Excel.SheetBinaryMacroEnabled.12\shell\open\command[(默认)]="C:\Program Files\Microsoft Office\Root\…; Excel.SheetBinaryMacroEnabled.12\shell\open\ddeexec[(默认)]=<MISSING>; Excel.SheetBinaryMacroEnabled.12\shell\open\ddeexec\application[(默认)]=<MISSING>; Excel.SheetBinaryMacroEnabled.12\shell\open\ddeexec\topic[(默认)]=<MISSING>; Word.Document.12\shell\open\command[(默认)]="C:\Program Files\Microsoft Office\Root\…; PowerPoint.Show.12\shell\open\command[(默认)]="C:\Program Files\Microsoft Office\Root\…; Software\Microsoft\Office\16.0\Excel\Options[DDECleaned]=1; 
+YYYY-MM-DD HH:MM:SS.mmm | DONE      | [备份当前状态] <<< [备份当前状态] 成功 | 耗时=1951ms | 后: score=0 dde=0/4 cmdDde=0 DDECleaned=1 excelProc=2 win=2
+YYYY-MM-DD HH:MM:SS.mmm | CLICK     | [一键修复 DDE] >>> 点击[一键修复 DDE] | 前: score=0 dde=0/4 cmdDde=0 DDECleaned=1 excelProc=2 win=2
+YYYY-MM-DD HH:MM:SS.mmm | REPAIR    | [一键修复 DDE] 修复前检查 | score=0 dde=0/4 cmdDde=0 DDECleaned=1 excelProc=2 win=2 | score=0
+YYYY-MM-DD HH:MM:SS.mmm | CHOICE    | [一键修复 DDE] 用户选择=OK | 问题: 确认执行 DDE 修复
+YYYY-MM-DD HH:MM:SS.mmm | BACKUP    | [一键修复 DDE] 修复前自动备份完成 | file=<工具目录>\backup\dde-backup-YYYYMMDD-HHMMSS.txt items=19 missing=12
+YYYY-MM-DD HH:MM:SS.mmm | REPAIR    | [一键修复 DDE] 开始写入 DDE 注册 | exe=C:\Program Files\Microsoft Office\Root\Office16\EXCEL.EXE mode=dde
+YYYY-MM-DD HH:MM:SS.mmm | REPAIR    | [一键修复 DDE] DDE 修复结果 | score=0->100 errs=0 exe=C:\Program Files\Microsoft Office\Root\Office16\EXCEL.EXE detail=全部成功
+YYYY-MM-DD HH:MM:SS.mmm | DONE      | [一键修复 DDE] <<< [一键修复 DDE] 成功 | 耗时=7081ms | 后: score=100 dde=4/4 cmdDde=4 DDECleaned=0 excelProc=2 win=2
+YYYY-MM-DD HH:MM:SS.mmm | CLICK     | [备份当前状态] >>> 点击[备份当前状态] | 前: score=100 dde=4/4 cmdDde=4 DDECleaned=0 excelProc=2 win=2
+YYYY-MM-DD HH:MM:SS.mmm | BACKUP    | [备份当前状态] 手动备份完成 | file=<工具目录>\backup\dde-backup-YYYYMMDD-HHMMSS.txt items=19 missing=0 bytes=1967
+YYYY-MM-DD HH:MM:SS.mmm | BACKUP    | [备份当前状态] 备份明细: Excel.Sheet.12\shell\open\command[(默认)]="C:\Program Files\Microsoft Office\Root\…; Excel.Sheet.12\shell\open\ddeexec[(默认)]=[open("%1")]; Excel.Sheet.12\shell\open\ddeexec\application[(默认)]=EXCEL.EXE; Excel.Sheet.12\shell\open\ddeexec\topic[(默认)]=System; Excel.Sheet.8\shell\open\command[(默认)]="C:\Program Files\Microsoft Office\Root\…; Excel.Sheet.8\shell\open\ddeexec[(默认)]=[open("%1")]; Excel.Sheet.8\shell\open\ddeexec\application[(默认)]=EXCEL.EXE; Excel.Sheet.8\shell\open\ddeexec\topic[(默认)]=System; Excel.SheetMacroEnabled.12\shell\open\command[(默认)]="C:\Program Files\Microsoft Office\Root\…; Excel.SheetMacroEnabled.12\shell\open\ddeexec[(默认)]=[open("%1")]; Excel.SheetMacroEnabled.12\shell\open\ddeexec\application[(默认)]=EXCEL.EXE; Excel.SheetMacroEnabled.12\shell\open\ddeexec\topic[(默认)]=System; Excel.SheetBinaryMacroEnabled.12\shell\open\command[(默认)]="C:\Program Files\Microsoft Office\Root\…; Excel.SheetBinaryMacroEnabled.12\shell\open\ddeexec[(默认)]=[open("%1")]; Excel.SheetBinaryMacroEnabled.12\shell\open\ddeexec\application[(默认)]=EXCEL.EXE; Excel.SheetBinaryMacroEnabled.12\shell\open\ddeexec\topic[(默认)]=System; Word.Document.12\shell\open\command[(默认)]="C:\Program Files\Microsoft Office\Root\…; PowerPoint.Show.12\shell\open\command[(默认)]="C:\Program Files\Microsoft Office\Root\…; Software\Microsoft\Office\16.0\Excel\Options[DDECleaned]=0; 
+YYYY-MM-DD HH:MM:SS.mmm | DONE      | [备份当前状态] <<< [备份当前状态] 成功 | 耗时=1504ms | 后: score=100 dde=4/4 cmdDde=4 DDECleaned=0 excelProc=2 win=2
+YYYY-MM-DD HH:MM:SS.mmm | CLICK     | [诊断报告] >>> 点击[诊断报告] | 前: score=100 dde=4/4 cmdDde=4 DDECleaned=0 excelProc=2 win=2
+YYYY-MM-DD HH:MM:SS.mmm | DONE      | [诊断报告] <<< [诊断报告] 成功 | 耗时=1507ms | 后: score=100 dde=4/4 cmdDde=4 DDECleaned=0 excelProc=2 win=2
+YYYY-MM-DD HH:MM:SS.mmm | VERIFY    | 记录打开前 Excel 进程: 0 个
+YYYY-MM-DD HH:MM:SS.mmm | VERIFY    | 已打开 销售数据.xlsx
+YYYY-MM-DD HH:MM:SS.mmm | VERIFY    | 已打开 库存数据.xlsx
+YYYY-MM-DD HH:MM:SS.mmm | VERIFY    | 合并成功：打开 2 个 xlsx 只新增 1 个 Excel 进程，DDE 合并生效。
+YYYY-MM-DD HH:MM:SS.mmm | VERIFY    | 请求关闭测试进程 PID=<PID>
+YYYY-MM-DD HH:MM:SS.mmm | VERIFY    | 强制结束残留测试进程 PID=<PID>
+YYYY-MM-DD HH:MM:SS.mmm | VERIFY    | CLI 实测合并验证 | ok=True newProcs=1 pids=<PID>f1=C:\Users\<用户名>\Desktop\销售数据.xlsx f2=C:\Users\<用户名>\Desktop\库存数据.xlsx
